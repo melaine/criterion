@@ -20,8 +20,5 @@ typedef struct list_forest_position_struct {
 } list_forest_position ;
 
 extern int list_forest_is_empty ( list_forest li) {
-	if(li.son==NULL)
-		return TRUE;
-	else
-		return FALSE;
+	return 0;
 }
