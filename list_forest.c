@@ -20,5 +20,5 @@ typedef struct list_forest_position_struct {
 } list_forest_position ;
 
 extern int list_forest_is_empty ( list_forest li) {
-
+	return 0;
 }
