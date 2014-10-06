@@ -9,17 +9,18 @@
 
 typedef struct list_forest_struct {
 	void * value;
-	list_forest_position* element;
-} list_forest;
-
-typedef struct list_forest_position_struct {
+	list_forest* element;
 	list_forest* father;
 	list_forest* brother;
 	list_forest* son;
+} list_forest;
+
+typedef struct list_forest_position_struct {
+
 } list_forest_position ;
 
 extern int list_forest_is_empty ( list_forest li) {
-	if(li.element->son==NULL)
+	if(li.son==NULL)
 		return TRUE;
 	else
 		return FALSE;
