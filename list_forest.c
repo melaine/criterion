@@ -16,9 +16,14 @@ typedef struct list_forest_struct {
 } list_forest;
 
 typedef struct list_forest_position_struct {
-
+	list_forest * here;
 } list_forest_position ;
 
+extern int list_forest_position_create ( list_forest li, list_forest_position *  pos) {
+	pos->here=malloc(sizeof(list_forest));
+	pos.here=&li;
+
+}
 extern int list_forest_is_empty ( list_forest li) {
-	return 0;
+
 }
