@@ -65,9 +65,9 @@ extern int list_forest_create ( list_forest * ,
 				void ( * copy_element ) ( const void * element , void ** pt ) ,
 				void ( * free_element ) ( void ** ) ) ;
 
-/** Destroy the list_forest and release all allocated ressources.
+/** Destroy the list_forest and release all allocated resources.
     MUST be used not to avoid memory leaks.
-    Uses free_value et free_element.
+    Uses free_value and free_element.
 **/
 extern int list_forest_destroy ( list_forest * ) ;
 
@@ -80,7 +80,7 @@ extern int list_forest_empty ( list_forest ) ;
 
 /** VISITING THE FOREST **/
 
-/** Type used to record a  position in a un list_forest_parcours.
+/** Type used to record a position in a list_forest_parcours.
     It is locate on a node and at a given list element.
     It should be created and at the end destroyed. **/
 typedef struct list_forest_position_struct * list_forest_position ;
