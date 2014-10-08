@@ -52,21 +52,39 @@ extern int list_forest_position_has_father ( list_forest_position pos) {
     }
 }
 extern int list_forest_position_father ( list_forest_position pos) {
-    pos->here=pos->here->father;
-    return FOREST_LIST_OK;
+    if(list_forest_position_has_father(pos)){
+        pos->here=pos->here->father;
+        return FOREST_LIST_OK;
+    } else {
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
 }
 
-/** Tell whether the node has a left node. **/
-extern int list_forest_position_has_left_son ( list_forest_position ) ;
+extern int list_forest_position_has_left_son ( list_forest_position pos) {
+    return (pos->here->son!=NULL)?TRUE:FALSE;
+}
 
-/** Move onto left son and first element on its list (if any). **/
-extern int list_forest_position_left_son ( list_forest_position ) ;
+extern int list_forest_position_left_son ( list_forest_position pos) {
+    if(list_forest_position_has_left_son(pos)){
+        pos->here=pos->here->son;
+        return FOREST_LIST_OK;
+    } else {
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+}
 
-/** Tell whether the node has a next brother. **/
-extern int list_forest_position_has_next_brother ( list_forest_position ) ;
+extern int list_forest_position_has_next_brother ( list_forest_position pos) {
+    return (pos->here->brother!=NULL)?TRUE:FALSE;
+}
 
-/** Move onto next brother and first element on its list (if any). **/
-extern int list_forest_position_next_brother ( list_forest_position ) ;
+extern int list_forest_position_next_brother ( list_forest_position pos) {
+        if(list_forest_position_has_next_brother(pos)){
+        pos->here=pos->here->brother;
+        return FOREST_LIST_OK;
+    } else {
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+}
 
 extern void * list_forest_position_value ( list_forest_position pos) {
     return &(pos->here->value);
