@@ -90,7 +90,51 @@ extern void * list_forest_position_value ( list_forest_position pos) {
     return &(pos->here->value);
 }
 
+extern int list_forest_add_next_brother ( list_forest_position pos ,
+					  const void * value ) {
+	list_forest lf = {};
+	lf->value = value;
+	if(pos->here != NULL && pos->here->brother == NULL)
+	{
+		pos->here->brother = lf;
+		return FOREST_LIST_OK;
+	}return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+}
+
+extern int list_forest_add_left_son ( list_forest_position pos,
+				      const void * value ) {
+		list_forest lf = {};
+		lf->value = value;
+		if(pos->here != NULL && pos->here->son == NULL)
+		{
+			pos->here->son = lf;
+			return FOREST_LIST_OK;
+		}return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+}
 
 
+extern int list_forest_position_has_element ( list_forest_position pos) {
+	if(pos->here == NULL)
+	{
+		return FALSE;
+	}else
+	{
+		if(pos->here->element != NULL) return TRUE;
+		else return list_forest_position_has_element(pos->here->brother) ||
+				list_forest_position_has_element(pos->here->father) ||
+				list_forest_position_has_element(pos->here->son) ;
+	}
+}
+
+/** Move onto the next element (or out of the list if it was the last element). **/
+extern int list_forest_position_element_next ( list_forest_position pos)
+{
+	if(list_forest_position_has_next_element(pos)){
+		 pos->here=pos->here->element;
+		 return FOREST_LIST_OK;
+	} else{
+		return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+	}
+}
 int main(void){
 }
