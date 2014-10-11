@@ -8,6 +8,8 @@
 #include <strings.h>
 #include "list_forest.h"
 
+#define ELEMENT "special_element_list"
+
 typedef struct list_forest_struct {
 	void * value;
 	list_forest element;
@@ -22,7 +24,6 @@ typedef struct list_forest_position_struct{
 
 extern int list_forest_position_create ( list_forest li, list_forest_position * pos) {
 	pos=malloc(sizeof(list_forest_position));
-	(*pos)->here=malloc(sizeof(list_forest));
 	(*pos)->here=li;
 	return FOREST_LIST_OK;
 }
@@ -87,8 +88,14 @@ extern int list_forest_position_next_brother ( list_forest_position pos) {
 }
 
 extern void * list_forest_position_value ( list_forest_position pos) {
+    if(pos->here->son)
     return &(pos->here->value);
 }
+
+extern int list_forest_is_empty ( list_forest li) {
+    return li==NULL?TRUE:FALSE;
+}
+
 
 
 
