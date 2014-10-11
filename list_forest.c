@@ -8,7 +8,7 @@
 #include <strings.h>
 #include "list_forest.h"
 
-#define ELEMENT "special_element_list"
+//#define ELEMENT 1
 
 typedef struct list_forest_struct {
 	void * value;
@@ -95,9 +95,64 @@ extern void * list_forest_position_value ( list_forest_position pos) {
 extern int list_forest_is_empty ( list_forest li) {
     return li==NULL?TRUE:FALSE;
 }
+/*marche pas*/
+extern int list_forest_add_next_brother ( list_forest_position pos ,
+					  const void * value ) {
+    if(pos->here==NULL){
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+	list_forest lf = malloc(sizeof(list_forest));
+	lf->value = value;
+	lf->father=pos->here->father;
+	lf->element=NULL;
+	lf->brother=NULL;
+	lf->son=NULL;
+    pos->here->brother = lf;
+	return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+}
+/*marche pas*/
+extern int list_forest_add_left_son ( list_forest_position pos,
+				      const void * value ) {
+    if(pos->here==NULL){
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+	list_forest lf = malloc(sizeof(list_forest));
+	lf->value = value;
+	lf->father=pos->here->father;
+	lf->element=NULL;
+	lf->brother=NULL;
+	lf->son=NULL;
+    pos->here->son = lf;
+	return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+}
+/*marche pas*/
+extern int list_forest_position_has_element ( list_forest_position pos) {
+	if(pos->here == NULL) {
+		return FALSE;
+	} else {
+	    if(pos->here->son==ELEMENT){
+            return TRUE;
+	    } else {
+	        return FALSE;
+	    }
+	}
+}
 
-
-
+extern int list_forest_position_element_next ( list_forest_position pos) {
+	if(pos->here==NULL){
+        return FOREST_LIST_OK;
+	} else {
+	    if(pos->here->brother!=NULL){
+            pos->here=pos->here->brother;
+            return FOREST_LIST_OK;
+        } else {
+            pos->here=pos->here->father;
+            return FOREST_LIST_OK;
+        }
+	}
+}
 
 int main(void){
 }
+
+
