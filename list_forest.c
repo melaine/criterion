@@ -20,7 +20,7 @@ typedef struct list_forest_struct
     list_forest father;
     list_forest brother;
     list_forest son;
-} * list_forest;
+} * list_forest ;
 
 typedef struct list_forest_position_struct
 {
@@ -49,6 +49,7 @@ extern int list_forest_position_create ( list_forest li, list_forest_position * 
     (*pos)->here=li;
     return FOREST_LIST_OK;
 }
+/*incomplet*/
 extern int list_forest_position_destroy ( list_forest_position * pos)
 {
     free(*pos);
@@ -70,7 +71,7 @@ extern int list_forest_position_next_brother_remove ( list_forest li,
 
 extern int list_forest_position_has_father ( list_forest_position pos)
 {
-    if(pos==NULL||pos->here->father==NULL)
+    if(NULL==pos||NULL==pos->here->father)
     {
         return FALSE;
     }
@@ -94,7 +95,7 @@ extern int list_forest_position_father ( list_forest_position pos)
 
 extern int list_forest_position_has_left_son ( list_forest_position pos)
 {
-    return (pos->here->son!=NULL)?TRUE:FALSE;
+    return (NULL!=pos->here->son)?TRUE:FALSE;
 }
 
 extern int list_forest_position_left_son ( list_forest_position pos)
@@ -112,7 +113,7 @@ extern int list_forest_position_left_son ( list_forest_position pos)
 
 extern int list_forest_position_has_next_brother ( list_forest_position pos)
 {
-    return (pos->here->brother!=NULL)?TRUE:FALSE;
+    return (NULL!=pos->here->brother)?TRUE:FALSE;
 }
 
 extern int list_forest_position_next_brother ( list_forest_position pos)
@@ -130,9 +131,8 @@ extern int list_forest_position_next_brother ( list_forest_position pos)
 
 extern void * list_forest_position_value ( list_forest_position pos)
 {
-    if(pos==NULL || pos->here==NULL || pos->here->value==NULL)
+    if(NULL==pos||NULL==pos->here||NULL==pos->here->value)
     {
-        puts("2");
         return NULL;
     }
     return pos->here->value;
@@ -140,7 +140,7 @@ extern void * list_forest_position_value ( list_forest_position pos)
 
 extern int list_forest_is_empty ( list_forest li)
 {
-    if((li==NULL)||((li->value==NULL)&&(li->father==NULL)))
+    if((NULL==li)||((NULL==li->value)&&(NULL==li->father)))
     {
         return TRUE;
     }
@@ -149,24 +149,42 @@ extern int list_forest_is_empty ( list_forest li)
         return FALSE;
     }
 }
-
+/*march pas*/
 extern int list_forest_add_next_brother ( list_forest_position pos ,
         const void * value )
 {
     list_forest lf;
-    if(pos->here==NULL)
+    if(NULL==pos->here)
     {
-        /*puts("6test");*/
         lf=malloc(sizeof(list_forest));
-        (pt_fct[CP_VALUE]) (value,&(lf->value));
-        lf->brother=NULL;
+       /* lf->value=NULL;
         lf->father=NULL;
+        lf->brother=NULL;
+        lf->element=NULL;*/
+        /*lf->son=NULL;*/
+        printf("1 %p\n",(lf->value));
+        /*printf("3 %p\n",lf->son);
+        printf("4 %p\n",lf->brother);
+        printf("5 %p\n",lf->father);
+        printf("6 %p\n",lf->element);*/
+        printf("4 %p\n",lf);
+        printf("4 %p\n",*lf);
+        (pt_fct[CP_VALUE]) (value,&(lf->value));
+        /*printf("3 %p\n",(lf->value));
+        printf("4 %p\n",&(lf->son));*/
+        /*lf->brother=NULL;
+        printf("5 %p\n",(lf->value));
+        printf("6 %p\n",&(lf->son));
+        lf->father=NULL;
+        printf("7 %p\n",(lf->value));
+        printf("8 %p\n",&(lf->son));
         lf->element=NULL;
+        printf("9 %p\n",(lf->value));
+        printf("10 %p\n",&(lf->son));*/
         /*lf->son=NULL;*/
         pos->here=lf;
         return FOREST_LIST_OK;
     }
-    /*puts("test8");*/
     lf = malloc(sizeof(list_forest));
     (pt_fct[CP_VALUE]) (value,&(lf->value));
     /*printf("1 %d\n",(*((int*)lf->son)));*/
@@ -177,8 +195,8 @@ extern int list_forest_add_next_brother ( list_forest_position pos ,
     lf->brother=NULL;
     /*printf("4 %d\n",(*((int*)lf->value)));*/
     /*lf->son=NULL;*/
-    /*printf("5 %p\n",(lf->value));
-    printf("6 %p\n",&(lf->son));*/
+    printf("5 %p\n",(pos->here->value));
+    printf("6 %p\n",&(pos->here->son));
     pos->here->brother = lf;
     /*if(lf->son==NULL){
         puts("puts8");
@@ -200,39 +218,76 @@ extern int list_forest_add_left_son ( list_forest_position pos,
 	lf->son=NULL;
     pos->here->son = lf;
 	return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
-}
-/*marche pas
-extern int list_forest_position_has_element ( list_forest_position pos) {
-	if(pos->here == NULL) {
-		return FALSE;
-	} else {
-	    if(pos->here->son==ELEMENT){
-            return TRUE;
-	    } else {
-	        return FALSE;
-	    }
-	}
 }*/
 
+extern int list_forest_position_has_element ( list_forest_position pos) {
+	if(NULL==pos->here) {
+		return FALSE;
+	} else {
+	    if(NULL==pos->here->element){
+            return FALSE;
+	    } else {
+	        return TRUE;
+	    }
+	}
+}
+extern void * list_forest_position_element ( list_forest_position pos) {
+    if(list_forest_position_has_element(pos)){
+        return (void *) pos->here->element->value;
+    } else {
+        return (void *) FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+}
+
+extern int list_forest_add_element ( list_forest_position pos ,
+				     const void * element )
+{
+    list_forest lf;
+    if(NULL==pos->here){
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+    if(NULL==pos->here->element){
+        lf=malloc(sizeof(list_forest));
+        lf->father=NULL;
+        lf->brother=NULL;
+        /*lf->son=NULL;*/
+        lf->element=NULL;
+        (pt_fct[CP_ELEM]) (element,&(lf->value));
+        pos->here->element=lf;
+        return FOREST_LIST_OK;
+    } else {
+        if(NULL==pos->here->element->brother){
+            lf=malloc(sizeof(list_forest));
+            lf->father=NULL;
+            lf->brother=pos->here->element;
+            /*lf->son=NULL;*/
+            lf->element=NULL;
+            (pt_fct[CP_ELEM]) (element,&(lf->value));
+            pos->here->element->father=lf;
+            pos->here->element=lf;
+            return FOREST_LIST_OK;
+        } else {
+            lf=malloc(sizeof(list_forest));
+            lf->father=pos->here->element->father;
+            lf->brother=pos->here->element;
+            pos->here->element->father->brother=lf;
+            pos->here->element->brother=lf;
+            pos->here->element=lf;
+            /*lf->son=NULL;*/
+            lf->element=NULL;
+            (pt_fct[CP_ELEM]) (element,&(lf->value));
+            return FOREST_LIST_OK;
+        }
+    }
+}
 extern int list_forest_position_element_next ( list_forest_position pos)
 {
-    if(pos->here==NULL)
-    {
+   if(list_forest_position_has_element(pos)){
+        pos->here->element=pos->here->element->brother;
         return FOREST_LIST_OK;
-    }
-    else
-    {
-        if(pos->here->brother!=NULL)
-        {
-            pos->here=pos->here->brother;
-            return FOREST_LIST_OK;
-        }
-        else
-        {
-            pos->here=pos->here->father;
-            return FOREST_LIST_OK;
-        }
-    }
+   } else {
+       return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+   }
 }
 
 void affichage_simple (list_forest_position pos)
@@ -242,6 +297,7 @@ void affichage_simple (list_forest_position pos)
 void copy2(const void * value, void ** pt )
 {
     * pt = NULL ;
+    /*printf("2000 %p / %p / p",pt,*pt);*/
     * pt = (void *) malloc ( sizeof ( int ) ) ;
     memcpy ( * pt , value , sizeof ( int ) );
 }
@@ -263,43 +319,11 @@ int main(void)
     list_forest_position_create ( lf , & pos ) ;
     list_forest_add_next_brother ( pos , (void *) & b ) ;
     affichage_simple(pos);
-    b=4;
+    puts("test");
+    /*b=4;
     list_forest_add_next_brother ( pos , (void *) & b ) ;
     list_forest_position_next_brother ( pos ) ;
-    /*if(pos->here==NULL||pos->here->value==NULL){
-        puts("1");
-    }*/
-    affichage_simple(pos);
-    /*list_forest_add_next_brother(pos1, 3);
-    affichage_simple(pos1);
-    /*if(list_forest_is_empty(li)==TRUE){
-        printf("ok");
-    } else {
-        puts("pas ok");
-    }*/
-    /*
-
-    li->value=&val;
-    affichage_simple(pos1);
-    list_forest_position_duplicate(pos1,&pos2);
-    affichage_simple(pos2);
-    /*val=3;
-    affichage_simple(pos);
-    li2=malloc(sizeof(list_forest));
-    list_forest_create(&li2, copy, free, copy, free);
-    val2=3;
-    li2->value=&val2;
-    li->brother=li2;
-    ercode=list_forest_position_next_brother(pos);
-    if(ercode==FOREST_LIST_ERROR_FOREST_LIST_EMPTY){
-        puts("erreur bro");
-    }
-    li2->father=li;
-    affichage_simple(pos);
-    list_forest_position_father(pos);
     affichage_simple(pos);*/
 
     return 0;
 }
-
-
