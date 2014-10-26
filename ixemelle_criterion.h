@@ -2,7 +2,7 @@
 # define __IXEMELLE_CRITERION_H__
 
 # include "ixemelle.h"
-
+# include "<stdio.h>
 # include "list_forest.h"
 
 
@@ -37,7 +37,7 @@ typedef struct ixemelle_criterion_struct * ixemelle_criterion ;
 
 /** To create an initialize a criterion.
     The criterion is defined by a string.
-    A criterion is denoted by a conjuction of basic criterion:
+    A criterion is denoted by a conjunction of basic criterion:
     . tag[key="value"] for the node (self)
     <- tag[key="value"] for its father
     <-- tag[key="value"] for some ancestor
