@@ -83,22 +83,42 @@ extern int list_forest_destroy ( list_forest * plf) {
     list_forest_empty(*plf);
     *plf=NULL;
     return FOREST_LIST_OK;
-}/*todo
+}
 extern int list_forest_position_left_son_remove ( list_forest lf,
 						  list_forest_position pos ) {
-						      pos->here->son
+    list_forest lf2;
+    if(NULL==pos->here ||list_forest_is_empty(lf)){
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+    lf2=pos->here->son;
+    if(NULL!=lf2){
+        lf2->brother=NULL;
+    }
+    pos->here->son=pos->here->son->brother;
+    list_forest_destroy(&lf2);
+    return FOREST_LIST_OK;
 						  }
-						  /*todo
+
 extern int list_forest_position_next_brother_remove ( list_forest lf ,
 						      list_forest_position pos ) {
-
-}*/
+    list_forest lf2;
+    if(NULL==pos->here ||list_forest_is_empty(lf)){
+        return FOREST_LIST_ERROR_FOREST_LIST_EMPTY;
+    }
+    lf2=pos->here->brother;
+    if(NULL!=lf2){
+        lf2->brother=NULL;
+    }
+    pos->here->brother=pos->here->brother->brother;
+    list_forest_destroy(&lf2);
+    return FOREST_LIST_OK;
+}
 
 extern void list_forest_fprint ( FILE * f,
 				 list_forest lf,
 				 void ( * print_value ) ( FILE * , void * ) ,
 				 void ( * print_element ) ( FILE * , void * ) ){
-        /**Nombre de décalage espace nécessaire (pour faire apparaitre la parenté*/
+        /**Nombre de décalage espace nécessaire (pour faire apparaitre la parenté)*/
         static int nb_dec=0;
         int i;
         if(lf==NULL) {
@@ -131,7 +151,11 @@ extern int list_forest_position_destroy ( list_forest_position * pos){
     *pos=NULL;
     return FOREST_LIST_OK;
 }
-extern int list_forest_position_duplicate ( list_forest_position dup, list_forest_position * res);
+extern int list_forest_position_duplicate ( list_forest_position dup, list_forest_position * res){
+    *res=malloc(sizeof(struct list_forest_position_struct));
+    memcpy(*res,dup,sizeof(sizeof(list_forest_position)));
+    return FOREST_LIST_OK;
+}
 
 extern int list_forest_position_has_father ( list_forest_position pos)
 {
